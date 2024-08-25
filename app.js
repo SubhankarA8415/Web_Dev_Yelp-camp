@@ -1,8 +1,8 @@
 // syntax to import env file to get access to the secrets stored inside .env file
-// if(process.env.NODE_ENV !== 'production'){
-//     require('dotenv').config();
-// }
-require('dotenv').config(); // if we ignore development mode then we can directly use this and run in production mode
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config();
+}
+//require('dotenv').config(); // if we ignore development mode then we can directly use this and run in production mode
 // NODE_ENV=production node app.js, syntax to run for production
 
 // console.log(process.env.SECRET) accessing the content inside env

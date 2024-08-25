@@ -64,7 +64,7 @@ const store = MongoStore.create({
     touchAfter: 24 * 60 * 60, // time in secs, this is just referring to resaving of session data after 24 hours and it won't constantly resaves as user refreshes the page
     // it will resave only if some session data gets updated
     crypto: {
-        secret: 'thisshouldbeabettersecret!'
+        secret: process.env.SECRET || 'thisshouldbeabettersecret!'
     }
 });
 

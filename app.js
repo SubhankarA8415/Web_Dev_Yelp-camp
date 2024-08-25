@@ -75,7 +75,7 @@ store.on('error', function(e) {
 })
 const sessionConfig = {
     store,
-    secret: 'thisshouldbeabettersecret!',
+    secret: process.env.SECRET || 'thisshouldbeabettersecret!',
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -256,3 +256,24 @@ app.listen(3000, () => {
 // we need to setup git and github repository and add git init to this folder
 // then we will add git ignore and add node_modules and env file to it so that they won't get shared
 // then we need to push our files into github
+// then we click on +new and then web service icon on render and add our git info and the repository we want to show
+// then we will click on our repository and then connect it and fill out a form
+/*After you find and connect your app's GitHub repository when creating a new service on Render, then you will be taken to a form that you need to fill out to continue the deployment process.
+
+You need to fill out these fields there:
+
+Name: select a simple name for your deployed app. Note: the Name value has an influence on the application URL that you will get when the application is deployed.
+
+Region: choose the region where your app is going to be hosted based on your preference.
+
+Branch: choose the Git branch that you want to use for deployment (you set that up when following the Git and GitHub instructions earlier — for example, the main or the master branch, or some other branch that you've set up for deploying).
+
+Environment/Runtime: Node
+
+Build Command: npm install
+
+Start Command: node app.js
+
+Below that, choose the Free plan for your deployed app */
+
+// and we should also set our session secret in .env file

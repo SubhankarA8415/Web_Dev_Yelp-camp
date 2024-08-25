@@ -1,0 +1,127 @@
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/stars.css">
+
+<div class="row">
+    <div class="col-6" >
+      <div id="campgroundcarousel" class="carousel slide carousel-fade">
+        <div class="carousel-inner">
+          <% campground.images.forEach((img, i) => { %> <!-- using forEach loop to get image indices-->
+          <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+            <img src="<%= img.url %>" class="d-block w-100" alt="...">
+          </div>
+          <% }) %>
+        <% if (campground.images.length > 1) { %>
+        <button class="carousel-control-prev" type="button" data-bs-target="#campgroundcarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#campgroundcarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+        <% } %>
+      </div>
+      </div>
+        <div class="card mb-3">
+            <!-- <% for (let img of campground.images) { %>
+            <img src="<%= img.url%>" class="card-img-top" alt="...">
+            <% } %> -->
+            <div class="card-body">
+              <h5 class="card-title"><%= campground.title %></h5>
+              <p class="card-text"><%= campground.description %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item text-secondary"><%= campground.location %></li>
+              <li class="list-group-item">Posted by: <%= campground.author.username %></li>
+              <li class="list-group-item">$<%= campground.price %>/night</li>
+            </ul>
+            <% if(currentUser && campground.author.equals(currentUser._id)) { %> <!-- currentUser is defined in app.js coming from express-session
+              so here we are verifying if someone is loggedIn or not and if the person is the one who posted the campground or not, inorder to show and hide edit and delete buttons -->
+            <div class="card-body">
+                <a class="card-link btn btn-outline-info" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+                <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-outline-danger">Delete</button>
+                </form>
+            </div>
+            <% } %>
+            <div class="card-footer text-body-secondary">
+              <form action="/campgrounds" method="GET">
+                <button class="btn btn-outline-primary">Back to all campgrounds</button>
+              </form>
+              </div>
+          </div>
+    </div>
+    <div class="col-6">
+      <div id="map"></div>
+      <% if(currentUser) { %>
+      <h2>Leave a Review</h2>
+      <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+        <!-- <div class="mb-3">
+          <label class="form-label" for="rating">Rating</label>
+          <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
+        </div> -->
+        <!-- code copied from starability github -->
+         <div class="mb-3">
+        <fieldset class="starability-growRotate">
+          <!-- <legend>Basic star rating:</legend> -->
+          <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+          <!-- default value has been set to 1 star if someone won;t give any star still it will select 1 star -->
+          <input type="radio" id="rate1" name="review[rating]" value="1" />
+          <label for="rate1">1 star.</label>
+    
+          <input type="radio" id="rate2" name="review[rating]" value="2" />
+          <label for="rate2">2 stars.</label>
+    
+          <input type="radio" id="rate3" name="review[rating]" value="3" />
+          <label for="rate3">3 stars.</label>
+    
+          <input type="radio" id="rate4" name="review[rating]" value="4" />
+          <label for="rate4">4 stars.</label>
+    
+          <input type="radio" id="rate5" name="review[rating]" value="5" />
+          <label for="rate5">5 stars.</label>
+    
+          <span class="starability-focus-ring"></span>
+        </fieldset>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="body">Review</label>
+          <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <button class="btn btn-outline-success">Submit</button>
+      </form>
+      <% } %>
+      <% if (campground.reviews.length !== 0) {%>
+      <h2>Ratings</h2>
+      <% } %>
+      <% for (let review of campground.reviews) { %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title"><%= review.author.username %></h5>
+          <p class="starability-result" data-rating="<%= review.rating %>">
+            Rated: <%= review.rating %> stars
+          </p>
+          <!-- <h6 class="card-subtitle mb-2 text-muted">By~<%= review.author.username %></h6> -->
+          <p class="card-text">Review: <%= review.body %> </p>
+          <% if(currentUser && review.author.equals(currentUser._id)) { %>
+          <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-sm btn-outline-danger">Delete</button>
+          </form>
+          <% } %>
+        </div>
+      </div>
+      <% } %>
+    </div>
+</div>
+
+<script>
+  const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+  const campground = <%-JSON.stringify(campground)%>
+</script>
+<script src="/javascripts/showPageMap.js"></script>
+
+    

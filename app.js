@@ -277,3 +277,4 @@ Start Command: node app.js
 Below that, choose the Free plan for your deployed app */
 
 // and we should also set our session secret in .env file
+

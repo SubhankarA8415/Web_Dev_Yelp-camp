@@ -247,7 +247,6 @@ app.listen(3000, () => {
 
 // setting up mongo atlas on cloud to store our mongo data on cloud so as to deploy our project
 
-// XFRysCi8jyLhqBDX -> mongo atlas password
 // create cluster, set profile, give network access, connect to cluster using node js and copy paste url
 
 // for storing data using connect-mongo

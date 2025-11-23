@@ -75,3 +75,12 @@ Logged-in users can:
 
 ### Deployment
 - Render (Web Service)
+
+---
+
+## 👨‍💻 Developer
+
+**Subhankar Pandit**  
+**Full Stack Developer | Backend Engineer | AI/ML | Cloud**  
+**GitHub**: https://github.com/SubhankarA8415  
+**LinkedIn**: https://linkedin.com/in/subhankar-pandit 
